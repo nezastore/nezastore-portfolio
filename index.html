@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Neizam M. | AI Tools Builder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #667EEA;
+            --secondary: #764BA2;
+            --dark: #0D1117;
+            --darker: #161B22;
+            --text: #E6EDF3;
+            --text-muted: #8B949E;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(ellipse at center, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
+        .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-text h2 { font-size: 24px; color: var(--text-muted); margin-bottom: 30px; }
+        .hero-text p { font-size: 18px; color: var(--text-muted); margin-bottom: 40px; max-width: 500px; }
+        .typing { color: var(--primary); border-right: 3px solid var(--primary); animation: blink 1s infinite; }
+        @keyframes blink {
+            0%, 100% { border-color: var(--primary); }
+            50% { border-color: transparent; }
+        }
+        .btn-group { display: flex; gap: 20px; }
+        .btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--primary); }
+        .btn-secondary:hover { background: rgba(102, 126, 234, 0.1); transform: translateY(-3px); }
+        .hero-image { display: flex; justify-content: center; align-items: center; }
+        .avatar-container { position: relative; width: 300px; height: 300px; }
+        .avatar-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--primary);
+            animation: spin 3s linear infinite;
+        }
+        .avatar-ring:nth-child(2) {
+            width: 90%; height: 90%; top: 5%; left: 5%;
+            border-top-color: var(--secondary);
+            animation-direction: reverse;
+            animation-duration: 2s;
+        }
+        .avatar-ring:nth-child(3) {
+            width: 80%; height: 80%; top: 10%; left: 10%;
+            border-top-color: var(--primary);
+            animation-duration: 4s;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .avatar {
+            position: absolute;
+            width: 70%; height: 70%;
+            top: 15%; left: 15%;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        section { padding: 100px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 36px; margin-bottom: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-title p { color: var(--text-muted); font-size: 18px; }
+        .about { background: var(--darker); }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text p { margin-bottom: 20px; color: var(--text-muted); }
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .skill-category {
+            background: var(--dark);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s;
+        }
+        .skill-category:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .skill-category h4 { color: var(--primary); margin-bottom: 15px; font-size: 18px; }
+        .skill-category ul { list-style: none; }
+        .skill-category li { color: var(--text-muted); margin-bottom: 8px; padding-left: 20px; position: relative; }
+        .skill-category li::before { content: '>'; position: absolute; left: 0; color: var(--secondary); }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .project-card {
+            background: var(--darker);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s;
+        }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2); }
+        .project-header { padding: 30px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); }
+        .project-icon { font-size: 40px; margin-bottom: 15px; }
+        .project-header h3 { font-size: 24px; margin-bottom: 10px; }
+        .project-header span { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-production { background: rgba(34, 197, 94, 0.2); color: #22C55E; }
+        .status-development { background: rgba(102, 126, 234, 0.2); color: var(--primary); }
+        .project-body { padding: 30px; }
+        .project-body p { color: var(--text-muted); margin-bottom: 20px; }
+        .project-tech { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .tech-badge { padding: 5px 12px; background: rgba(102, 126, 234, 0.1); border-radius: 6px; font-size: 13px; color: var(--primary); }
+        .project-links { display: flex; gap: 15px; }
+        .project-link { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.3s; }
+        .project-link.primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .project-link.secondary { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .project-link:hover { transform: scale(1.05); }
+        .stats { background: var(--darker); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .stat-card { text-align: center; padding: 40px; background: var(--dark); border-radius: 16px; border: 1px solid rgba(102, 126, 234, 0.2); transition: all 0.3s; }
+        .stat-card:hover { transform: scale(1.05); border-color: var(--primary); }
+        .stat-number { font-size: 48px; font-weight: bold; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { color: var(--text-muted); margin-top: 10px; }
+        .contact-content { max-width: 600px; margin: 0 auto; text-align: center; }
+        .contact-content p { color: var(--text-muted); margin-bottom: 40px; font-size: 18px; }
+        .social-links { display: flex; justify-content: center; gap: 20px; }
+        .social-link { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--darker); border: 2px solid var(--primary); font-size: 24px; text-decoration: none; transition: all 0.3s; }
+        .social-link:hover { background: var(--primary); transform: translateY(-5px) scale(1.1); }
+        footer { padding: 40px 0; text-align: center; border-top: 1px solid rgba(102, 126, 234, 0.2); color: var(--text-muted); }
+        footer a { color: var(--primary); text-decoration: none; }
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 36px; }
+            .hero-text p { margin: 0 auto 40px; }
+            .btn-group { justify-content: center; }
+            .avatar-container { width: 200px; height: 200px; }
+            .about-content { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">&lt;NM /&gt;</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#stats">Stats</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Muhammad Neizam M.</h1>
+                    <h2><span class="typing">AI Tools Builder & Full-Stack Developer</span></h2>
+                    <p>Building autonomous AI agents and developer tools. Passionate about creating solutions that make developers lives easier through the power of AI.</p>
+                    <div class="btn-group">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="avatar-container">
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-ring"></div>
+                        <div class="avatar">AI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Me</h2>
+                <p>Building the future, one line of code at a time</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Hi! I'm Muhammad Neizam M., a full-stack developer from Jombang, Jawa Timur, Indonesia. I'm passionate about building AI-powered tools that solve real problems.</p>
+                    <p>With experience in Node.js, Python, and C++, I specialize in creating autonomous AI agents, traffic routing systems, and developer tools.</p>
+                    <p>Currently focused on CodeSentinel - an autonomous AI code review agent that helps developers catch bugs and security issues. Also built 9router, a production AI traffic management system.</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Languages</h4>
+                        <ul>
+                            <li>JavaScript / TypeScript</li>
+                            <li>Python</li>
+                            <li>C++</li>
+                            <li>Node.js</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Tools & Tech</h4>
+                        <ul>
+                            <li>Git & GitHub</li>
+                            <li>Docker</li>
+                            <li>Linux</li>
+                            <li>Cloud Platforms</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4>AI & ML</h4>
+                        <ul>
+                            <li>Claude API</li>
+                            <li>LLM Integration</li>
+                            <li>API Routing</li>
+                            <li>Autonomous Agents</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Systems</h4>
+                        <ul>
+                            <li>Traffic Routing</li>
+                            <li>Load Balancing</li>
+                            <li>API Gateways</li>
+                            <li>Web Servers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Projects</h2>
+                <p>Things I've built that I'm proud of</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">X</div>
+                        <h3>CodeSentinel</h3>
+                        <span class="status-development">In Development</span>
+                    </div>
+                    <div class="project-body">
+                        <p>Autonomous AI-powered code review agent that finds bugs, security vulnerabilities, and performance issues automatically using Claude AI.</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">Claude API</span>
+                            <span class="tech-badge">GitHub API</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/nezastore/codesentinel" class="project-link primary">View Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">*</div>
+                        <h3>9router</h3>
+                        <span class="status-production">Production</span>
+                    </div>
+                    <div class="project-body">
+                        <p>Production-grade AI traffic router and load balancer. Manages traffic across multiple AI providers with automatic failover.</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">OpenRouter</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">H</div>
+                        <h3>Hermes Gateway</h3>
+                        <span class="status-production">Production</span>
+                    </div>
+                    <div class="project-body">
+                        <p>Custom AI gateway system for managing LLM integrations with advanced routing and caching capabilities.</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">API</span>
+                            <span class="tech-badge">Caching</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="stats" id="stats">
+        <div class="container">
+            <div class="section-title">
+                <h2>Quick Stats</h2>
+                <p>Numbers that tell a story</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label">Projects Built</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2+</div>
+                    <div class="stat-label">Years Coding</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Passion</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Let's Connect</h2>
+                <p>I'm always open to discussing new projects and opportunities</p>
+            </div>
+            <div class="contact-content">
+                <p>Whether you want to collaborate on a project, have questions about my work, or just want to say hi, feel free to reach out!</p>
+                <div class="social-links">
+                    <a href="https://github.com/nezastore" class="social-link" title="GitHub">GH</a>
+                    <a href="https://twitter.com/nezastore" class="social-link" title="Twitter">TW</a>
+                    <a href="https://linkedin.com/in/nezastore" class="social-link" title="LinkedIn">IN</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>Built with by <a href="https://github.com/nezastore">Muhammad Neizam M.</a> | 2026</p>
+        </div>
+    </footer>
+</body>
+</html>
